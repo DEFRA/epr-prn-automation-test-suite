@@ -14,8 +14,8 @@ stages:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '21.x'
-        displayName: 'Install Node.js 21.x'
+          versionSpec: '18.x'
+        displayName: 'Install Node.js 18.x'
 
       - script: |
           cd Angular/
