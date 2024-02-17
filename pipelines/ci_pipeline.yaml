@@ -18,7 +18,7 @@ stages:
         displayName: 'Install Node.js 18.x'
 
       - script: |
-          cd Angular/
+          cd tests/
           npm install -g @angular/cli
           npm install
           ng build --prod
@@ -28,7 +28,7 @@ stages:
         displayName: "Run unit tests"
         inputs:
           script: |
-            cd Angular/
+            cd tests/
             ng test --browsers=ChromeHeadless --code-coverage --watch=false
       - task: ArchiveFiles@2
         displayName: 'Archive files'
