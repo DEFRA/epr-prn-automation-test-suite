@@ -17,8 +17,7 @@ pr:
     - main
     - dev
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: DEFRA-COMMON-ubuntu2004-SSV3
 
 jobs:
 - job: RunPlaywrightTests
