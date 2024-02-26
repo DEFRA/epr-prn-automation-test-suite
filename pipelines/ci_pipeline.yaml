@@ -1,0 +1,49 @@
+trigger:
+- main
+- dev
+
+schedules:
+- cron: "0 7 * * 1-5"
+  displayName: Daily 7 AM schedule
+  branches:
+    include:
+    - main
+    - dev
+  always: true
+
+pr:
+  branches:
+    include:
+    - main
+    - dev
+
+pool: DEFRA-COMMON-ubuntu2004-SSV3
+
+jobs:
+- job: RunPlaywrightTests
+  timeoutInMinutes: 60
+  displayName: 'Run Playwright tests'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18'
+    displayName: 'Install Node.js'
+
+  - script: npm ci
+    displayName: 'Install dependencies'
+
+  - script: npx playwright install --with-deps
+    displayName: 'Install Playwright Browsers'
+
+  - script: npx playwright test
+    displayName: 'Run Playwright tests'
+    env:
+      BASEURL: $(BASEURL)
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: 'playwright-report/'
+      artifactName: 'playwright-report'
+      publishLocation: 'pipeline'
+      retentionDays: 30
+    condition: always()
