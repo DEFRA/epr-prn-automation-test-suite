@@ -38,7 +38,7 @@ jobs:
   - script: npx playwright test
     displayName: 'Run Playwright tests'
     env:
-      BASEURL: $(BASEURL)
+      CI: 'true'
 
   - task: PublishPipelineArtifact@1
     inputs:
@@ -47,3 +47,12 @@ jobs:
       publishLocation: 'pipeline'
       retentionDays: 30
     condition: always()
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    inputs:
+      searchFolder: 'test-results'
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'junit-results.xml'
+      mergeTestResults: true
+      testRunTitle: 'Playwright Automation Tests'
+    condition: succeededOrFailed() 
